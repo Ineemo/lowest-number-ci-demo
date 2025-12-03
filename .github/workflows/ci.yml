@@ -1,0 +1,35 @@
+name: CI - Validate Lowest Number Script
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+
+    - name: Install Python runtime
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Run Test Case 1
+      run: |
+        python3 find_lowest_number.py tests/case1.in out1.txt
+        diff out1.txt tests/case1.expected
+
+    - name: Run Test Case 2
+      run: |
+        python3 find_lowest_number.py tests/case2.in out2.txt
+        diff out2.txt tests/case2.expected
+
+    - name: Run Test Case 3 (Blank Input)
+      run: |
+        python3 find_lowest_number.py tests/case3.in out3.txt
+        diff out3.txt tests/case3.expected
